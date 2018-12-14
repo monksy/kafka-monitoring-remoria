@@ -77,6 +77,15 @@ services:
   grafana:
     image: grafana/grafana:master
     container_name: grafana
+    environment:
+      - DS_NAME=kairosdb
+      - DS_TYPE=kairosdb
+      - DS_ACCESS=proxy
+      - DS_URL=http://kairosdb:8083
+      - DS_IS_DEFAULT=true
+      - DS_AUTH=false
+    links:
+      - kairosdb
     ports:
       - 3000:3000
 
