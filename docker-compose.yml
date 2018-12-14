@@ -63,15 +63,15 @@ services:
 
   # you cannot have multiple nodes join the cluster at the same time when
   # cassandra.consistent.rangemovement is true so we further delay it to give it time to stabilize
-  cassandra-node-2:
-    image: cassandra:3.11
-    command: /bin/bash -c "echo 'Waiting for seed node' && sleep 80 && /docker-entrypoint.sh cassandra -f"
-    environment:
-      - "CASSANDRA_SEEDS=seed"
-    links:
-     - cassandra0:seed
-    depends_on:
-     - "cassandra0"
+#  cassandra-node-2:
+#    image: cassandra:3.11
+#    command: /bin/bash -c "echo 'Waiting for seed node' && sleep 80 && /docker-entrypoint.sh cassandra -f"
+#    environment:
+#      - "CASSANDRA_SEEDS=seed"
+#    links:
+#     - cassandra0:seed
+#    depends_on:
+#     - "cassandra0"
 
 ##############################
   grafana:
@@ -81,7 +81,7 @@ services:
       - 3000:3000
 
   kairosdb:
-    image: snuids/kairosdb:v1.1.3
+    image: wangdrew/kairosdb
     container_name: kairosdb
     environment:
       - CASSANDRA_HOST_LIST=cassandra0:9160
@@ -90,4 +90,7 @@ services:
       - "8083:8083"
     links:
       - cassandra0
+    depends_on:
+      - cassandra-node-1
+
 
