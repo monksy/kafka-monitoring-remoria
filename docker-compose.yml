@@ -15,17 +15,19 @@ services:
         protocol: tcp
         mode: host
     environment:
-      KAFKA_LISTENERS: PLAINTEXT://:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_CREATE_TOPICS: "test-0:1:1,test-1:1:1"
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      #This is set to your local ip address, this is messy
+      - KAFKA_ADVERTISED_HOST_NAME=192.168.1.244
+      - KAFKA_CREATE_TOPICS= "test-0:1:1,test-1:1:1"
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
 
   remora:
     image: registry.opensource.zalan.do/machina/remora
     depends_on:
       - kafka
+    links:
+      - kafka
     environment:
-      KAFKA_ENDPOINT: "kafka:9092"
+      - KAFKA_ENDPOINT=kafka:9092
 #      JAVA_OPTS:
 #        -Xmx1g
 #        -Dcom.sun.management.jmxremote.rmi.port=9090
