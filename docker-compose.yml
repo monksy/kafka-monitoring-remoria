@@ -82,6 +82,7 @@ services:
 
   kairosdb:
     image: wangdrew/kairosdb
+    command: /bin/bash -c "echo 'Waiting for seed node' && sleep 60 && /usr/bin/config-kairos.sh"
     container_name: kairosdb
     environment:
       - CASSANDRA_HOST_LIST=cassandra0:9160
@@ -94,3 +95,13 @@ services:
       - cassandra-node-1
 
 
+#
+#Build example
+#kairosdb:
+#  build: apps/kairosdb
+#  command: /bin/bash -c "/opt/kairosdb/bin/kairosdb.sh run"
+#  restart: always
+#  ports:
+#    - "4242:4242"
+#    - "8080:8080"
+#links:
